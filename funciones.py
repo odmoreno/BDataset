@@ -20,7 +20,7 @@ def validate_nans(df):
       cols = row.axes[0]
       row1 = cols[0] #puedes ser curul o curulasambleista
       row2 = None
-      if row1 == 'curulasambleista':
+      if row1 == 'Curul Asambleista':
         row2 = cols[1] # la sgte sera la columna del voto
         curulAsam = row[row1]
         voto = row[row2]
@@ -35,20 +35,20 @@ def validate_nans(df):
     df.dropna(inplace=True)
     print(' NANS: ' + nombre)
     
-  return df, nombre
+  return df
 
-def validate_num_col(value, nombre):
+def validate_num_col(value):
   value = str(value)
   size = len(value)
   num = ''
   name = ''
   if(size <= 2):
     print('Falta el nombre: ')
-    print(nombre)
+    print(nombresOlvidados)
     v1 = value[0]
     v2 = v1 + value[1]
     num = v2
-    name = nombre
+    name = nombresOlvidados[0]
     return num, name
   else:
     v1 = value[0]
@@ -67,7 +67,7 @@ def validate_num_col(value, nombre):
       name = value[2:]
   return num, name
 
-def validate_rows(df, nombre):
+def validate_rows(df):
   #print(df)
   cols = ['curul', 'asambleista', 'voto']
   dfcols = df.columns.values
@@ -88,7 +88,7 @@ def validate_rows(df, nombre):
       print('contains curul asambleista')
       values = df[nameErr].tolist()
       for value in values:
-        v1, v2 = validate_num_col(value, nombre)
+        v1, v2 = validate_num_col(value)
         curul.append(v1)
         asambleista.append(v2)
 
@@ -105,7 +105,7 @@ def validate_df(df):
   tmp = df.drop(columns="Nro.")
   tmp = tmp.loc[:, ~tmp.columns.str.contains('^Unnamed')]
   tmp, nombre = validate_nans(tmp)
-  tmp = validate_rows(tmp, nombre)
+  tmp = validate_rows(tmp)
   return tmp
 
 
