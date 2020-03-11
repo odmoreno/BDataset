@@ -2,7 +2,10 @@ from tabula import read_pdf
 import pandas as pd
 import fitz
 import os
-from funciones import validate_df, get_asunto
+
+import functions
+
+#from funciones import validate_df, get_asunto
 
 class ADataset:
 
@@ -12,6 +15,7 @@ class ADataset:
     self.curulFlag = False
     self.mixFlag = False
     self.sesionName = ''
+    self.validate = functions.Validate()
 
   def get_dfs(self):
     ''' Obtener las tablas como dataframes'''
@@ -25,14 +29,14 @@ class ADataset:
   def concat_dfs(self, list):
     current_df = list[0] #obtenemos la primera tabla
     #current_df = self.validate_df(current_df)
-    current_df = validate_df(current_df)
+    current_df = self.validate.validate_df(current_df)
     #current_df = current_df[:-1] #Eliminamos la ultima fila, que representa el total de tal opcion de votacion
     tmp = list[1:] # Como tenmos la primera tabla, no la necesitamos mas y la descartamos
     df = None
     for element in tmp:
       #element = element[:-1] #Elimina ultima fila
       #element = self.validate_df(element)
-      element = validate_df(element)
+      element = self.validate.validate_df(element)
       df = pd.concat([current_df, element], axis=0, ignore_index=True)
       current_df = df
       #print(df)
@@ -44,7 +48,7 @@ class ADataset:
     path = self.basedir + name + '.csv'
     df.to_csv(path, index=False)
   
-  def get_info(self, indice):
+  def get_info(self, indice, age):
     doc = fitz.open(self.pdfdir)
     #print("number of pages: %i" % doc.pageCount)
     #print(doc.metadata)
@@ -52,8 +56,13 @@ class ADataset:
     page1text = page1.getText("text")
     info = page1text.split("\n")
     info = info[1:]
+    periodo = None
+    if age >= '2013':
+      periodo = 1
+    else: 
+      periodo = 2
 
-    name, values = get_asunto(info, indice)
+    name, values = self.validate.get_asunto(info, indice, periodo)
     self.sesionName = name
 
     return values
@@ -68,7 +77,8 @@ class ADataset:
   def main(self, indice):
     dfs = self.get_dfs()
     dfconcat = self.concat_dfs(dfs)
-    info = self.get_info(indice)
+    info = self.get_info(indice, '2013')
+    print(info)
     
     self.get_csv(dfconcat, self.sesionName)
     #self.get_csv(dfconcat)
@@ -97,8 +107,10 @@ if __name__ == '__main__':
     client.validate_dir(client.basedir)
 
     indice = 0 
-    folder = 'pdfs/Año 2017/Mayo 2017/Votaciones de la Sesión de instalación de la Asamblea Nacional 2017-2021/'
-    namepdf = 'Sesión de instalación de la Asamblea Nacional 2017-2021 - Elección Libia Rivas Secretaria General y Diego Torr.pdf'
+    #folder = 'pdfs/Año 2017/Mayo 2017/Votaciones de la Sesión de instalación de la Asamblea Nacional 2017-2021/'
+    #namepdf = 'Sesión de instalación de la Asamblea Nacional 2017-2021 - Elección Libia Rivas Secretaria General.pdf'
+    folder = 'pdfs/Año 2013/Julio/Sesión 197 del Pleno continuación (23-07-2013)/'
+    namepdf = '2- Sesión 197 continuación Legalización de Terre.pdf'
     path = folder + namepdf
 
     client.pdfdir = path
