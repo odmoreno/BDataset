@@ -16,6 +16,7 @@ class ADataset:
     self.mixFlag = False
     self.sesionName = ''
     self.validate = functions.Validate()
+    self.meses = ['01', '02', '03', '04','05', '06', '07', '08', '09', '10', '11', '12']
 
   def get_dfs(self):
     ''' Obtener las tablas como dataframes'''
@@ -48,7 +49,7 @@ class ADataset:
     path = self.basedir + name + '.csv'
     df.to_csv(path, index=False)
   
-  def get_info(self, indice, age):
+  def get_info(self, indice, age, month):
     doc = fitz.open(self.pdfdir)
     #print("number of pages: %i" % doc.pageCount)
     #print(doc.metadata)
@@ -61,11 +62,44 @@ class ADataset:
       periodo = 1
     else: 
       periodo = 2
-
-    name, values = self.validate.get_asunto(info, indice, periodo)
+    
+    mes = self.get_month(month)
+    name, values = self.validate.get_asunto(info, indice, periodo, mes)
     self.sesionName = name
 
     return values
+
+  def get_month(self, mes):
+    valor = ''
+    mes = mes.lower()
+    mes = mes.strip()
+    if mes == 'enero':
+      valor = self.meses[0]  
+    elif mes == 'febrero':
+      valor = self.meses[1]
+    elif mes == 'marzo':
+      valor = self.meses[2]
+    elif mes == 'abril':
+      valor = self.meses[3]
+    elif mes == 'mayo':
+      valor = self.meses[4]
+    elif mes == 'junio':
+      valor = self.meses[5]
+    elif mes == 'julio':
+      valor = self.meses[6]
+    elif mes == 'agosto':
+      valor = self.meses[7]
+    elif mes == 'septiembre':
+      valor = self.meses[8]
+    elif mes == 'octubre':
+      valor = self.meses[9]
+    elif mes == 'noviembre':
+      valor = self.meses[10]
+    elif mes == 'diciembre':
+      valor = self.meses[11]
+    else:
+      valor = 'none'
+    return valor
 
 
   def write_info(self, info):

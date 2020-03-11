@@ -12,6 +12,7 @@ class BDataset:
     self.currentsession = ''
     self.indiceName = 'sesiones.csv'
     self.currentAge = ''
+    self.currentMonth = ''
     self.colNames = ['titulo', 'periodo', 'sesion', 'votacion', 'fecha', 'hora', 'total', 'presente', 'ausente', 'si', 'no', 'blanco', 'abstencion', 'asunto']
     self.sesDf = pd.DataFrame(columns=self.colNames)
 
@@ -19,9 +20,9 @@ class BDataset:
     for folderName, subfolders, filenames in os.walk(self.pdfsfolder):
       for folder in subfolders:
         self.currentAge = folder[-4:]
-
         path = os.path.join(folderName, folder)
         for foldern2, subf2, fnames2 in os.walk(path):
+          self.currentMonth = foldern2[-4:]
           for folder2 in subf2:
             path2 = os.path.join(foldern2, folder2)
             for foldern3, subf3, fnames3 in os.walk(path2):
@@ -44,7 +45,7 @@ class BDataset:
                     try:
                       dfs = self.csv.get_dfs()
                       dfconcat = self.csv.concat_dfs(dfs)
-                      info = self.csv.get_info(count, self.currentAge)
+                      info = self.csv.get_info(count, self.currentAge, self.currentMonth)
                       name = self.csv.sesionName
                       self.csv.get_csv(dfconcat, name)
                       self.sesDf = self.sesDf.append(pd.Series(info, index=self.colNames), ignore_index=True)

@@ -154,7 +154,7 @@ class Validate:
 
     return df
 
-  def get_asunto(self, info, indice, periodo):
+  def get_asunto(self, info, indice, periodo, mes):
     fechaFlag = False
     sesionFlag = False
     lockSesion = False
@@ -230,7 +230,7 @@ class Validate:
       if text == "blanco": blancoFlag = True
       if text == "abstencion": abstencionFlag = True
 
-    sesionName = 'sesion'+ '_' + sesion + '_p' + str(periodo) +'_v' + str(indice)
+    sesionName = 'sesion'+ '_' + sesion + '_p' + str(periodo) + '_m' + str(mes) +'_v' + str(indice)
     values.append(sesionName), values.append(periodo), values.append(sesion), values.append(indice), values.append(fecha), values.append(hora), values.append(total), values.append(presente), values.append(ausente)
     values.append(si), values.append(no), values.append(blanco), values.append(abstencion), values.append(asunto)
     print(values)
