@@ -147,6 +147,12 @@ class Covoting:
         for key, link in items:
             writer.writerow(link)
 
+  def unitTest(self, name):
+    'Name, el nombre del csv ha analizar'
+    folderpath = 'datasets/' + name + '.csv'
+    currentdf, currentdict = self.validate.create_df(folderpath)
+    print('Test Line')
+
 if __name__ == '__main__':
     
     client = Covoting()

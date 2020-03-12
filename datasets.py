@@ -77,7 +77,7 @@ class BDataset:
     self.sesDf.to_csv(path, index=False)
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='datasets_log.log', filemode='w', level=logging.INFO, format='%(asctime)s %(message)s')
+    logging.basicConfig(filename='logs/datasets_log.log', filemode='w', level=logging.INFO, format='%(asctime)s %(message)s')
     logger = logging.getLogger('__BDataset__')
     logging.info('------------------------------------------------------------------------------------------')
     logging.info('')

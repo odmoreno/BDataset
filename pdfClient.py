@@ -179,7 +179,7 @@ if __name__ == '__main__':
   basedir = client.base_dir
   baseurl = client.base_url
   url = client.url
-  logging.basicConfig(filename='pdfs_log.log' , filemode='w', level=logging.INFO, format='%(asctime)s %(message)s')
+  logging.basicConfig(filename='logs/pdfs_log.log' , filemode='w', level=logging.INFO, format='%(asctime)s %(message)s')
   logger = logging.getLogger('__FileServer__')
   logging.info('------------------------------------------------------------------------------------------')
   logging.info('')
