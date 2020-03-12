@@ -62,6 +62,7 @@ class Covoting:
     elif mode == 2:
       tmpdict == self.p2d
 
+    pathf = infotext + '.csv'
     count = 1
     for index, row in df.iterrows():
       name = row['titulo'] # Nombre de la sesion
@@ -86,9 +87,11 @@ class Covoting:
         self.lastDf = currentdf
         newfile = 'cv_' + name + '.csv'
         pathtosave = path + newfile
-        self.writeCsv(newdct, newfile, pathtosave)
+        self.writeCsv(newdct, pathtosave)
+        self.writeCsv(self.p1d, pathf)
 
-      count += 1
+
+    self.writeCsv(self.p1d, pathf)
     
 
   
@@ -112,22 +115,22 @@ class Covoting:
         a2 = row['A2']
         key, link= self.getKeyByValue(currentD, a1, a2)
         if self.dictflag:
-          valor = link[3] + 1
-          list = [a1, a2, link[2], valor]
+          valor = link[2] + 1
+          list = [a1, a2, valor]
           #tmpD[key] = list
           self.p1d[key] = list
         else:
           if key in self.p1d:
               print('Existe la clave: ' + str(key))
               lastvalue = self.p1d[key]
-              valor = lastvalue[3] + 1
-              list = [link[0], link[1], link[2], valor]
+              valor = lastvalue[2] + 1
+              list = [link[0], link[1], valor]
               #tmpD[key] = list
               self.p1d[key] = list
           else:
               print('No existe registro: ' + str(key))
-              valor = link[3]
-              list = [link[0], link[1], link[2], valor]
+              valor = link[2]
+              list = [link[0], link[1], valor]
               sizelastd = len(self.p1d)
               #tmpD[sizelastd] = list
               self.p1d[sizelastd] = list
@@ -139,7 +142,7 @@ class Covoting:
     print('test line')
     return self.p1d
 
-  def writeCsv(self, dict, name, path):
+  def writeCsv(self, dict, path):
     with open(path, 'w', newline='') as file:
         writer = csv.writer(file)
         items = dict.items()
@@ -156,14 +159,14 @@ class Covoting:
 if __name__ == '__main__':
     
     client = Covoting()
-    #client.validate_dir(client.foldername)
-    #dfp1, dfp2 = client.getdfp(client.pathsesiondf)
+    client.validate_dir(client.foldername)
+    dfp1, dfp2 = client.getdfp(client.pathsesiondf)
     
-    nombre = 'sesion_0_p2_a2017_m05_v1'
-    client.unitTest(nombre)
+    #nombre = 'sesion_0_p2_a2017_m05_v3'
+    #client.unitTest(nombre)
 
-    client.getcvn(dfp1, 'Sesiones del primer (1) periodo', client.path1, mode=1)
-    #client.getcvn(dfp2, 'Sesiones del primer (2) periodo', client.path2, 12, mode=2)
+    #client.getcvn(dfp1, 'periodo1', client.path1, mode=1)
+    client.getcvn(dfp2, 'periodo2', client.path2, mode=2)
     
       
     

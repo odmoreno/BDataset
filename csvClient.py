@@ -58,13 +58,13 @@ class ADataset:
     info = page1text.split("\n")
     info = info[1:]
     periodo = None
-    if age >= '2013':
-      periodo = 1
-    else: 
+    if age >= '2017':
       periodo = 2
+    else: 
+      periodo = 1
     
     mes = self.get_month(month)
-    name, values = self.validate.get_asunto(info, indice, periodo, mes)
+    name, values = self.validate.get_asunto(info, indice, periodo, age , mes)
     self.sesionName = name
 
     return values

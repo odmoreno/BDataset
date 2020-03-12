@@ -7,7 +7,7 @@ class Validate:
   def __init__(self):
 
     self.nanFlag = False
-    self.votos = ['SI', 'NO', 'BLANCO', 'ABSTENCION', 'AUSENTE']
+    self.votos = ['AUSENTE', 'SI', 'NO', 'BLANCO', 'ABSTENCION']
     self.colsName = ['A1', 'A2', 'valor', 'voto']
     self.nombresOlvidados = []
 
@@ -106,6 +106,13 @@ class Validate:
       #print(df)
     return df
   
+  def validate_breaklines(self, df):
+    for index, row in df.iterrows():
+      voto = row['voto']
+      if not voto:
+        pass
+      pass
+
   def validate_df(self, df):
     dfcols = df.columns.values
     nro = dfcols[0]
@@ -121,8 +128,8 @@ class Validate:
 
 
   def create_df(self, pathSesion):
-    votos = ['SI', 'NO', 'BLANCO', 'ABSTENCION', 'AUSENTE']
-    colsName = ['A1', 'A2', 'voto', 'valor']
+    votos = ['ABSTENCION', 'AUSENTE', 'SI', 'NO', 'BLANCO']
+    colsName = ['A1', 'A2', 'valor']
 
     df = pd.read_csv(pathSesion)
     df = df[['asambleista', 'curul', 'voto']]
@@ -139,7 +146,7 @@ class Validate:
         for index, this in enumerate(lol):
           for that in lol[index + 1:]:
             if this[1] and that[1]:
-              info = [this[0], that[0], this[2], 1]
+              info = [this[0], that[0], 1]
               tmpDf = tmpDf.append(pd.Series(info, index=colsName), ignore_index=True)
               dict[count] = info
               count +=1

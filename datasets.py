@@ -7,7 +7,7 @@ import csvClient
 class BDataset:
 
   def __init__(self):
-    self.pdfsfolder = 'pdfs/'
+    self.pdfsfolder = '/home/ubuntu/Documents/B1/B3/pdfs/'
     self.basedir = 'datasets/'
     self.csv = csvClient.ADataset()
     self.currentsession = ''
