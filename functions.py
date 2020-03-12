@@ -114,6 +114,9 @@ class Validate:
     tmp = tmp.loc[:, ~tmp.columns.str.contains('^Unnamed')]
     tmp = self.validate_nans(tmp)
     tmp = self.validate_rows(tmp)
+    #tmp2 = tmp
+    #tmp2 = df.t.str.split("\r", expand=True).stack()
+    print('test')
     return tmp
 
 
@@ -135,10 +138,11 @@ class Validate:
         lol = votoDf.values.tolist()
         for index, this in enumerate(lol):
           for that in lol[index + 1:]:
-            info = [this[0], that[0], this[2], 1]
-            tmpDf = tmpDf.append(pd.Series(info, index=colsName), ignore_index=True)
-            dict[count] = info
-            count +=1
+            if this[1] and that[1]:
+              info = [this[0], that[0], this[2], 1]
+              tmpDf = tmpDf.append(pd.Series(info, index=colsName), ignore_index=True)
+              dict[count] = info
+              count +=1
             #print('this: ' + this[0] + ' that: ' + that[0])
         #print(tmpDf)
       else:
@@ -154,7 +158,7 @@ class Validate:
 
     return df
 
-  def get_asunto(self, info, indice, periodo, mes):
+  def get_asunto(self, info, indice, periodo, age, mes):
     fechaFlag = False
     sesionFlag = False
     lockSesion = False
@@ -230,7 +234,7 @@ class Validate:
       if text == "blanco": blancoFlag = True
       if text == "abstencion": abstencionFlag = True
 
-    sesionName = 'sesion'+ '_' + sesion + '_p' + str(periodo) + '_m' + str(mes) +'_v' + str(indice)
+    sesionName = 'sesion'+ '_' + sesion + '_p' + str(periodo) + '_a' + str(age) +'_m' + str(mes) +'_v' + str(indice)
     values.append(sesionName), values.append(periodo), values.append(sesion), values.append(indice), values.append(fecha), values.append(hora), values.append(total), values.append(presente), values.append(ausente)
     values.append(si), values.append(no), values.append(blanco), values.append(abstencion), values.append(asunto)
     print(values)
