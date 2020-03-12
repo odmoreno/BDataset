@@ -156,8 +156,11 @@ class Covoting:
 if __name__ == '__main__':
     
     client = Covoting()
-    client.validate_dir(client.foldername)
-    dfp1, dfp2 = client.getdfp(client.pathsesiondf)
+    #client.validate_dir(client.foldername)
+    #dfp1, dfp2 = client.getdfp(client.pathsesiondf)
+    
+    nombre = 'sesion_0_p2_a2017_m05_v1'
+    client.unitTest(nombre)
 
     client.getcvn(dfp1, 'Sesiones del primer (1) periodo', client.path1, mode=1)
     #client.getcvn(dfp2, 'Sesiones del primer (2) periodo', client.path2, 12, mode=2)
