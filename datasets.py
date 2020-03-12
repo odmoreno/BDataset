@@ -17,6 +17,10 @@ class BDataset:
     self.colNames = ['titulo', 'periodo', 'sesion', 'votacion', 'fecha', 'hora', 'total', 'presente', 'ausente', 'si', 'no', 'blanco', 'abstencion', 'asunto']
     self.sesDf = pd.DataFrame(columns=self.colNames)
 
+  def validate_dir(self,path):
+    if not os.path.exists(path):
+      os.makedirs(path)
+
   def get_datasets(self):
     for folderName, subfolders, filenames in os.walk(self.pdfsfolder):
       for folder in subfolders:
@@ -81,4 +85,5 @@ if __name__ == '__main__':
     logging.info('Starting')
 
     client = BDataset()
+    client.validate_dir(client.basedir)
     client.get_datasets()
