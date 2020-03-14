@@ -148,7 +148,7 @@ class Validate:
             if this[1] and that[1]:
               info = [this[0], that[0], 1]
               tmpDf = tmpDf.append(pd.Series(info, index=colsName), ignore_index=True)
-              dict[count] = info
+              #dict[count] = info
               count +=1
             #print('this: ' + this[0] + ' that: ' + that[0])
         #print(tmpDf)

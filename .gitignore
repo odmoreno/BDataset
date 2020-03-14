@@ -5,3 +5,4 @@ __pycache__
 /_datasets
 datasets/
 cvnetworks
+/datasets.zip
