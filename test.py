@@ -81,19 +81,14 @@ a2 = [('oscar', 25, 'gye', 155) ,
             ('carlos', 25, 'duran' , 177) ,
             ('Meche', 23,'daule' , 167) ,
             ('Veena', 81, 'Delhi' , 144) ,
-            ('Shaun', 35, 'Colombo', 111),
-            ('Riti', 32, 'Colombo', 111),
+            ('Shaun', 35, 'Colombo', 112),
+            ('Riti', 32, 'Colombo', 112),
             ]
 
 df2 = pd.DataFrame(a2, columns=['Name', 'Age', 'City', 'Marks'])
 
 
-key = None
-
-if key == None:
-    print('alvv tenia razon')
-
-df=pd.merge(df1,df2,how="outer",indicator=True)
+df=pd.merge(df1,df2,how="outer", on=['Name', 'Age', 'City'] , indicator=True)
 dfleft=df[df['_merge']=='left_only']
 
 dfright=df[df['_merge']=='right_only']

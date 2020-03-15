@@ -40,7 +40,7 @@ class Covoting:
     if flag:
       sesionDf = pd.read_csv(pathdf)
       tmpDf = sesionDf
-      tmpDf = tmpDf.sort_values(by=['periodo', 'titulo'])
+      tmpDf = tmpDf.sort_values(by=['periodo', 'sesion', 'titulo'])
       print(tmpDf)
       print('testline')
       path = 'tmpSesiones.csv'
@@ -51,6 +51,8 @@ class Covoting:
     
     dfp1 = tmpDf.loc[tmpDf['periodo'] == 1]
     dfp2 = tmpDf.loc[tmpDf['periodo'] == 2]
+
+
     print('test line')
     return dfp1, dfp2
   
@@ -137,13 +139,13 @@ class Covoting:
               sizelastd = len(self.p1d)
               self.p1d[sizelastd] = list
               logging.info(list)
-              self.check_asambleista(a1, a2, list, sizelastd)
+              #self.check_asambleista(a1, a2, list, sizelastd)
           else:
               print('Coinciden !!!!')
               freq = int(link[2]) + 1
               list = [link[0], link[1], freq]
               self.p1d[key] = list
-              self.check_asambleista(a1, a2, list, key)
+              #self.check_asambleista(a1, a2, list, key)
 
   def check_asambleista(self, a1, a2, list, key):
       if a1 == 'PALACIOS CESAR' or a2 == 'PALACIOS CESAR':
@@ -168,12 +170,17 @@ class Covoting:
       self.lastDf = newdf
 
   def writeCsv(self, dict, path):
-    with open(path, 'w', newline='') as file:
-        writer = csv.writer(file)
-        items = dict.items()
-        writer.writerow(self.colsName)
-        for key, link in items:
-            writer.writerow(link)
+    tmpdf = pd.DataFrame([], columns=self.colsName)
+    items = dict.items()
+    for key, link in items:
+      tmpdf = tmpdf.append(pd.Series(link, index=self.colsName), ignore_index=True)
+    tmpdf.to_csv(path, index=False)
+    #with open(path, 'w', encoding ='latin-1', newline='') as file:
+    #    writer = csv.writer(file)
+    #    items = dict.items()
+    #    #writer.writerow(self.colsName)
+    #    for key, link in items:
+    #        writer.writerow(link)
 
   def unitTest(self, name):
     'Name, el nombre del csv ha analizar'
